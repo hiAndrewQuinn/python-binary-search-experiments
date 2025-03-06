@@ -1,4 +1,5 @@
 import random
+from typing import List, Optional, Any
 
 COLOR_GREEN = "\033[92m"
 COLOR_RED = "\033[91m"
@@ -6,7 +7,9 @@ COLOR_RESET = "\033[0m"
 COLOR_REVERSE = "\033[7m"
 
 
-def visualize_search(L, l, r, mid=None, label=""):
+def visualize_search(
+    L: List[Any], l: int, r: int, mid: Optional[int] = None, label: str = ""
+) -> None:
     """
     Visualizes the current state of the binary search algorithm.
 
@@ -34,7 +37,7 @@ def visualize_search(L, l, r, mid=None, label=""):
     print(f"{label:<12} {visual_list}    {markers}")
 
 
-def binary_search(L, T, verbose=False):
+def binary_search(L: List[Any], T: Any, verbose: bool = False) -> int:
     """
     Performs standard binary search to find any occurrence of target T in sorted list L.
 
@@ -66,7 +69,7 @@ def binary_search(L, T, verbose=False):
     return -1
 
 
-def binary_search_leftmost(L, T, verbose=False):
+def binary_search_leftmost(L: List[Any], T: Any, verbose: bool = False) -> int:
     """
     Finds the leftmost (first) occurrence of target T in sorted list L using binary search.
 
@@ -99,7 +102,7 @@ def binary_search_leftmost(L, T, verbose=False):
     return l
 
 
-def binary_search_rightmost(L, T, verbose=False):
+def binary_search_rightmost(L: List[Any], T: Any, verbose: bool = False) -> int:
     """
     Finds the rightmost (last) occurrence of target T in sorted list L using binary search.
 
@@ -132,7 +135,7 @@ def binary_search_rightmost(L, T, verbose=False):
     return l - 1
 
 
-def detailed_tests():
+def detailed_tests() -> None:
     """
     Runs example tests for standard, leftmost, and rightmost binary searches on a randomly generated sorted list.
     """
