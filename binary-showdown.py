@@ -65,7 +65,7 @@ def binary_search_bottenbruch(L, T):
 def run_experiments():
     num_trials = 20
     array_size = 20
-    max_value = 20
+    max_value = 99
 
     print("Trial\tL\tT\tBinarySearch\tWikipedia\tBottenbruch")
     print("=" * 120)
@@ -74,9 +74,9 @@ def run_experiments():
         L = sorted(random.choices(range(10, max_value + 1), k=array_size))  # Allow duplicates
         T = random.choice(L + [max_value + 1])  # Ensure some misses
 
-        result1, _, _ = binary_search(L, T)
-        result2, _, _ = binary_search_wikipedia(L, T)
-        result3, _, _ = binary_search_bottenbruch(L, T)
+        result1, iter1, comp1 = binary_search(L, T)
+        result2, iter2, comp2 = binary_search_wikipedia(L, T)
+        result3, iter3, comp3 = binary_search_bottenbruch(L, T)
 
         row = f"{trial:<5}\t{L}\t{T:<2}\t{result1:<12}\t{result2:<12}\t{result3:<12}"
 
@@ -89,6 +89,40 @@ def run_experiments():
         else:
             rprint(f"[yellow]{row}[/yellow]")  # Indices are different but point to the same value
 
+def run_large_experiment():
+    num_trials = 1000
+    array_size = 1000
+    max_value = 2**32
+    
+    total_iterations = {"binary": 0, "wikipedia": 0, "bottenbruch": 0}
+    total_comparisons = {"binary": 0, "wikipedia": 0, "bottenbruch": 0}
+    
+    for _ in range(num_trials):
+        L = sorted(random.choices(range(max_value), k=array_size))
+        T = random.choice(L + [max_value + 1])
+        
+        _, iter1, comp1 = binary_search(L, T)
+        _, iter2, comp2 = binary_search_wikipedia(L, T)
+        _, iter3, comp3 = binary_search_bottenbruch(L, T)
+        
+        total_iterations["binary"] += iter1
+        total_iterations["wikipedia"] += iter2
+        total_iterations["bottenbruch"] += iter3
+        
+        total_comparisons["binary"] += comp1
+        total_comparisons["wikipedia"] += comp2
+        total_comparisons["bottenbruch"] += comp3
+    
+    print("\nLarge-Scale Experiment Results")
+    print("=" * 50)
+    print("Algorithm      | Avg Iterations | Avg Comparisons")
+    print("-" * 50)
+    for key in total_iterations:
+        avg_iter = total_iterations[key] / num_trials
+        avg_comp = total_comparisons[key] / num_trials
+        print(f"{key.capitalize():<14} | {avg_iter:<14.2f} | {avg_comp:<15.2f}")
+
 if __name__ == "__main__":
     run_experiments()
+    run_large_experiment()
 
